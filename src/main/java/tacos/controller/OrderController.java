@@ -8,7 +8,9 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.support.SessionStatus;
 import tacos.model.TacoOrder;
-import tacos.repository.JdbcOrderRepository;
+import tacos.repository.OrderRepository;
+
+import java.util.Date;
 
 @Slf4j
 @Controller
@@ -16,10 +18,10 @@ import tacos.repository.JdbcOrderRepository;
 @SessionAttributes("tacoOrder")
 public class OrderController {
 
-    private JdbcOrderRepository orderRepository;
+    private OrderRepository orderRepository;
 
     @Autowired
-    public OrderController(JdbcOrderRepository orderRepository) {
+    public OrderController(OrderRepository orderRepository) {
         this.orderRepository = orderRepository;
     }
 
@@ -33,7 +35,7 @@ public class OrderController {
         if (errors.hasErrors()){
             return "orderForm";
         }
-
+        order.setPlacedAt(new Date());
         orderRepository.save(order);
         log.info("Order submitted: {}", order);
         sessionStatus.setComplete();
