@@ -8,7 +8,7 @@ import tacos.repository.IngredientRepository;
 import java.util.Optional;
 
 @Component
-public class IngredientByIdConverter implements Converter<String, IngredientUDT> {
+public class IngredientByIdConverter implements Converter<String, Ingredient> {
 
     private IngredientRepository ingredientRepository;
 
@@ -18,12 +18,7 @@ public class IngredientByIdConverter implements Converter<String, IngredientUDT>
     }
 
     @Override
-    public IngredientUDT convert(String id) {
-        Optional<Ingredient> ingredient = ingredientRepository.findById(id);
-        if (ingredient.isEmpty()) {
-            return null;
-        }
-
-        return ingredient.map(i -> new IngredientUDT(i.getName(), i.getType())).get();
+    public Ingredient convert(String id) {
+        return ingredientRepository.findById(id).orElse(null);
     }
 }
