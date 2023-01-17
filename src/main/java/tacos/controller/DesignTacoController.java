@@ -7,10 +7,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
-import tacos.model.Ingredient;
+import tacos.model.*;
 import tacos.model.Ingredient.Type;
-import tacos.model.Taco;
-import tacos.model.TacoOrder;
 import tacos.repository.IngredientRepository;
 
 import java.util.ArrayList;
@@ -67,7 +65,7 @@ public class DesignTacoController {
         if (errors.hasErrors()) {
             return "design";
         }
-        tacoOrder.addTaco(taco);
+        tacoOrder.addTaco(TacoUDRUtils.toTacoUDT(taco));
         log.info("Processing taco: {}", taco);
         return "redirect:/orders/current";
     }
