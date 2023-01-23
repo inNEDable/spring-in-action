@@ -2,7 +2,9 @@ package tacos.configuration;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.access.expression.method.MethodSecurityExpressionHandler;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
+import org.springframework.security.config.annotation.method.configuration.GlobalMethodSecurityConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
@@ -42,7 +44,7 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http.authorizeHttpRequests()
-                .requestMatchers("/design", "/orders", "design/**", "design/*", "/design*").hasAnyRole("USER", "ADMIN")
+                .requestMatchers("/design", "/orders", "design/**", "design/*", "/design*").authenticated()
                 .requestMatchers("/", "/**", "/h2-console/**", "/h2-console/*", "/console/**").permitAll()
                 .requestMatchers(toH2Console()).permitAll()
                 .and()

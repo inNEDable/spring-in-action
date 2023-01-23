@@ -1,0 +1,9 @@
+{
+  "properties": [
+    {
+      "name": "controllers.props.taco-order-page-size",
+      "type": "java.lang.String",
+      "description": "Description for controllers.props.tacoOrderPageSize."
+    }
+  ]
+}
