@@ -45,4 +45,43 @@ public class OrderController {
         sessionStatus.setComplete();
         return "redirect:/";
     }
+
+    @PatchMapping(path="/{orderId}", consumes="application/json")
+    public TacoOrder patchOrder(@PathVariable("orderId") Long orderId,
+                                @RequestBody TacoOrder patch) {
+        TacoOrder order = orderRepository.findById(orderId).get();
+        if (patch.getDeliveryName() != null) {
+            order.setDeliveryName(patch.getDeliveryName());
+        }
+        if (patch.getDeliveryStreet() != null) {
+            order.setDeliveryStreet(patch.getDeliveryStreet());
+        }
+        if (patch.getDeliveryCity() != null) {
+            order.setDeliveryCity(patch.getDeliveryCity());
+        }
+        if (patch.getDeliveryState() != null) {
+            order.setDeliveryState(patch.getDeliveryState());
+        }
+        if (patch.getDeliveryZip() != null) {
+            order.setDeliveryZip(patch.getDeliveryZip());
+        }
+        if (patch.getCcNumber() != null) {
+            order.setCcNumber(patch.getCcNumber());
+        }
+        if (patch.getCcExpiration() != null) {
+            order.setCcExpiration(patch.getCcExpiration());
+        }
+        if (patch.getCcCVV() != null) {
+            order.setCcCVV(patch.getCcCVV());
+        }
+        return orderRepository.save(order);
+    }
+
+    @PutMapping(path="/{orderId}", consumes="application/json")
+    public TacoOrder putOrder(
+            @PathVariable("orderId") Long orderId,
+            @RequestBody TacoOrder order) {
+        order.setId(orderId);
+        return orderRepository.save(order);
+    }
 }
