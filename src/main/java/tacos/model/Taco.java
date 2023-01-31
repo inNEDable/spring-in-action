@@ -1,14 +1,15 @@
 package tacos.model;
 
-import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
 import lombok.Data;
-//import org.springframework.data.annotation.Id;
+import lombok.NoArgsConstructor;
+import org.jetbrains.annotations.NotNull;
 
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import javax.validation.constraints.Size;
+
 @Data
 @Entity
 public class Taco {
@@ -17,8 +18,8 @@ public class Taco {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @NotNull
-    @Size(min = 5, message = "Name must be at least 5 characters")
+//    @NotNull
+//    @Size(min = 5, message = "Name must be at least 5 characters")
     private String name;
 
     private Date createdAt = new Date();

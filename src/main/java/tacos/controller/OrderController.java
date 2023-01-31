@@ -1,6 +1,5 @@
 package tacos.controller;
 
-import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -11,8 +10,7 @@ import org.springframework.web.bind.support.SessionStatus;
 import tacos.model.TacoOrder;
 import tacos.model.User;
 import tacos.repository.OrderRepository;
-
-import java.security.Principal;
+import javax.validation.Valid;
 import java.util.Date;
 
 @Slf4j

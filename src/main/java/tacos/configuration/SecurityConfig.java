@@ -2,10 +2,12 @@ package tacos.configuration;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
+import org.springframework.http.HttpMethod;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
+import org.springframework.security.config.annotation.web.configurers.oauth2.server.resource.OAuth2ResourceServerConfigurer;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -18,7 +20,7 @@ import static org.springframework.boot.autoconfigure.security.servlet.PathReques
 
 @Configuration
 @EnableWebSecurity
-@EnableMethodSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig {
 
     @Bean
@@ -41,21 +43,36 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        return http.authorizeHttpRequests()
-                .requestMatchers("/design", "/orders", "design/**", "design/*", "/design*").hasAnyRole("USER", "ADMIN")
-                .requestMatchers("/", "/**", "/h2-console/**", "/h2-console/*", "/console/**").permitAll()
+        return http.authorizeRequests()
+                // OAuth 2 configurations
+                .antMatchers(HttpMethod.POST, "/api/ingredients")
+                .hasAuthority("SCOPE_writeIngredients")
+                .antMatchers(HttpMethod.DELETE, "/api//ingredients")
+                .hasAuthority("SCOPE_deleteIngredients")
+
+
+                .antMatchers("/design", "/orders", "design/**", "design/*", "/design*").authenticated()
+                .antMatchers("/", "/**", "/h2-console/**", "/h2-console/*", "/console/**").permitAll()
                 .requestMatchers(toH2Console()).permitAll()
                 .and()
-                    .csrf().ignoringRequestMatchers(toH2Console())
+
+                // OAuth 2 Config
+                .oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt)
+                // END OF  OAuth 2 configurations
+
+                .csrf().ignoringRequestMatchers(toH2Console())
                 .and()
+
                     .formLogin()
                     .loginPage("/login")
                     .defaultSuccessUrl("/design")
                 .and()
+
                     .logout()
                     .logoutUrl("/logout")
                     .logoutSuccessUrl("/")
                 .and()
+
                 .build();
     }
 

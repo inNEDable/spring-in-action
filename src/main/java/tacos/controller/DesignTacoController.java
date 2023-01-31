@@ -1,6 +1,6 @@
 package tacos.controller;
 
-import jakarta.validation.Valid;
+
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -9,10 +9,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.RestTemplate;
-import org.springframework.web.util.DefaultUriBuilderFactory;
-import org.springframework.web.util.UriBuilderFactory;
-import org.springframework.web.util.UriComponentsBuilder;
 import tacos.model.Ingredient;
 import tacos.model.Ingredient.Type;
 import tacos.model.Taco;
@@ -20,6 +16,7 @@ import tacos.model.TacoOrder;
 import tacos.model.User;
 import tacos.repository.IngredientRepository;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.HashMap;

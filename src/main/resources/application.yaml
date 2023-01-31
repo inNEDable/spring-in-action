@@ -1,0 +1,14 @@
+## http://localhost:8080/h2-console
+## jdbc:h2:mem:tacocloud
+
+
+
+spring:
+  datasource:
+    generate-unique-name: false
+    name: tacocloud
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: http://localhost:9000/oauth2/jwks
